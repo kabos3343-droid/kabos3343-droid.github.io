@@ -540,6 +540,51 @@ body::before{
 }
 .img-remove-btn:hover{background:#f5f0e8;}
 
+.add-price-btn{
+  width:100%;
+  padding:6px;
+  margin-top:2px;
+  margin-bottom:4px;
+  border-radius:8px;
+  border:1.5px dashed var(--orange);
+  background:#FFF7EE;
+  color:var(--orange-deep);
+  font-size:11.5px;
+  font-weight:700;
+  cursor:pointer;
+}
+.add-price-btn:hover{background:#FFEEDD;}
+.remove-price-btn{
+  flex:0 0 26px;
+  height:26px;
+  border-radius:6px;
+  border:1px solid #e57373;
+  background:#fff;
+  color:#c62828;
+  font-size:12px;
+  cursor:pointer;
+}
+.remove-price-btn:hover{background:#ffebee;}
+
+.reorder-row{
+  display:flex;
+  gap:4px;
+  margin-bottom:6px;
+}
+.reorder-btn{
+  flex:1;
+  padding:5px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--brown-soft);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.reorder-btn:hover{background:#f5f0e8;}
+.reorder-btn:disabled{opacity:.35; cursor:not-allowed;}
+
 /* ---- Add category / item panels ---- */
 .add-panels{
   display:none;
@@ -720,6 +765,7 @@ const CATEGORIES = [
   { id:'fatir',    name:'فطير',        icon:'🥧' },
   { id:'pizza_sh', name:'بيتزا شرقي',  icon:'🍕' },
   { id:'pizza_it', name:'بيتزا إيطالي',icon:'🍕' },
+  { id:'extras_pizza', name:'إضافات البيتزا', icon:'🧀' },
   { id:'tawagen',  name:'طواجن وحواوشي', icon:'🥘' },
   { id:'broast',   name:'بروست',       icon:'🍗' },
   { id:'burger',   name:'برجر',        icon:'🍔' },
@@ -727,149 +773,285 @@ const CATEGORIES = [
   { id:'souri',    name:'سوري',        icon:'🌯' },
   { id:'drinks',   name:'مشروبات',     icon:'🥤' },
   { id:'roz',      name:'أرز باللبن',  icon:'🍮' },
-  { id:'extras',   name:'إضافات',      icon:'🍟' },
+  { id:'extras',   name:'إضافات البروست', icon:'🍟' },
   { id:'mixes',    name:'ميكسات عم قنديل', icon:'🍽️' },
   { id:'crepe',    name:'كريب',        icon:'🌯' },
 ];
 
 const MENU = [
   // ===== كشري =====
-  {cat:'koshari', name:'عبوة طيارة', desc:'كشري تيك اواي', price:30},
-  {cat:'koshari', name:'عبوة سوبر', desc:'كشري تيك اواي', price:35},
-  {cat:'koshari', name:'عبوة عم قنديل', desc:'كشري تيك اواي', price:40},
-  {cat:'koshari', name:'عبوة شيب', desc:'كشري تيك اواي', price:45},
-  {cat:'koshari', name:'عبوة أيسيشيال', desc:'كشري تيك اواي', price:50},
-  {cat:'koshari', name:'عبوة الكبير', desc:'كشري تيك اواي', price:65},
-  {cat:'koshari', name:'كشري كبيرة أوي', desc:'كشري تيك اواي', price:75},
-  {cat:'koshari', name:'كشري بالكبدة', desc:'كشري تيك اواي', sizes:{S:65,L:75}},
-  {cat:'koshari', name:'كشري بالفراخ', desc:'كشري تيك اواي', sizes:{S:70,L:90}},
-  {cat:'koshari', name:'كشري بالسجق', desc:'كشري تيك اواي', sizes:{S:65,L:75}},
+  {cat:'koshari', name:'علبة طيارة', desc:'كشري تيك أواي', price:30},
+  {cat:'koshari', name:'علبة سوبر', desc:'كشري تيك أواي', price:35},
+  {cat:'koshari', name:'علبة عم قنديل', desc:'كشري تيك أواي', price:40},
+  {cat:'koshari', name:'علبة شبح', desc:'كشري تيك أواي', price:45},
+  {cat:'koshari', name:'علبة أسبشيال', desc:'كشري تيك أواي', price:50},
+  {cat:'koshari', name:'علبة الكبير', desc:'كشري تيك أواي', price:65},
+  {cat:'koshari', name:'علبة كبيرة أوي', desc:'كشري تيك أواي', price:75},
+  {cat:'koshari', name:'كشري بالكبده', desc:'كشري تيك أواي', sizes:{S:65,L:75}},
+  {cat:'koshari', name:'كشري بالفراخ', desc:'كشري تيك أواي', sizes:{S:70,L:90}},
+  {cat:'koshari', name:'كشري بالسجق', desc:'كشري تيك أواي', sizes:{S:65,L:75}},
   {cat:'koshari', name:'طبق طيارة', desc:'كشري سفرة', price:35},
   {cat:'koshari', name:'طبق عم قنديل', desc:'كشري سفرة', price:40},
-  {cat:'koshari', name:'طبق شيب', desc:'كشري سفرة', price:50},
-  {cat:'koshari', name:'طبق أيسيشيال', desc:'كشري سفرة', price:55},
+  {cat:'koshari', name:'طبق سوبر', desc:'كشري سفرة', price:50},
+  {cat:'koshari', name:'طبق أسبشيال', desc:'كشري سفرة', price:55},
   {cat:'koshari', name:'طبق الكبير', desc:'كشري سفرة', price:65},
-  {cat:'koshari', name:'طبق كشري بالكبدة', desc:'كشري سفرة', sizes:{S:65,L:75}},
+  {cat:'koshari', name:'طبق كبيرة أوي', desc:'كشري سفرة', price:75},
+  {cat:'koshari', name:'طبق كشري بالكبده', desc:'كشري سفرة', sizes:{S:65,L:75}},
   {cat:'koshari', name:'طبق كشري بالسجق', desc:'كشري سفرة', sizes:{S:65,L:75}},
   {cat:'koshari', name:'طبق كشري بالفراخ', desc:'كشري سفرة', sizes:{S:70,L:90}},
+  {cat:'koshari', name:'عيش توست', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'سلطة خضراء', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'خيار مخلل', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'طماطم متبلة', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'صلصة', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'شطة طماطم', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'دقة', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'عدس', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'تقلية', desc:'إضافات الكشري', price:15},
+  {cat:'koshari', name:'حمص', desc:'إضافات الكشري', price:15},
 
   // ===== فطير =====
-  {cat:'fatir', name:'فطيرة سجق ولحمة', desc:'قسم اللحوم', sizes:{S:135,M:165,L:235}},
+  {cat:'fatir', name:'فطيرة سجق', desc:'قسم اللحوم', sizes:{S:135,M:165,L:235}},
   {cat:'fatir', name:'فطيرة لحمة', desc:'قسم اللحوم', sizes:{S:140,M:170,L:240}},
-  {cat:'fatir', name:'فطيرة شاورما لحم', desc:'قسم اللحوم', sizes:{S:140,M:180,L:250}},
-  {cat:'fatir', name:'فطيرة سوسيس', desc:'قسم اللحوم', sizes:{S:145,M:180,L:245}},
-  {cat:'fatir', name:'فطيرة بسطرمة', desc:'قسم اللحوم', sizes:{S:145,M:180,L:225}},
-  {cat:'fatir', name:'فطيرة سلامي', desc:'قسم اللحوم', sizes:{M:185,L:265}},
+  {cat:'fatir', name:'فطيرة شاورما لحم', desc:'قسم اللحوم', sizes:{S:140,M:170,L:240}},
+  {cat:'fatir', name:'فطيرة سوسيس', desc:'قسم اللحوم', sizes:{S:140,M:180,L:250}},
+  {cat:'fatir', name:'فطيرة بسطرمة', desc:'قسم اللحوم', sizes:{S:145,M:180,L:245}},
+  {cat:'fatir', name:'فطيرة سلامي', desc:'قسم اللحوم', sizes:{S:145,M:180,L:225}},
   {cat:'fatir', name:'فطيرة سموك تركي', desc:'قسم اللحوم', sizes:{S:145,M:175,L:225}},
   {cat:'fatir', name:'فطيرة مكس لحوم', desc:'قسم اللحوم', sizes:{M:185,L:265}},
-  {cat:'fatir', name:'فطيرة سوبر سوبريم', desc:'قسم اللحوم', sizes:{M:185,L:265}},
-  {cat:'fatir', name:'فطيرة لحوم مدخنة', desc:'قسم اللحوم', sizes:{S:150,M:185,L:225}},
+  {cat:'fatir', name:'فطيرة سوبر سوبريم', desc:'قسم اللحوم', sizes:{M:185,L:250}},
+  {cat:'fatir', name:'فطيرة لحوم مدخنة', desc:'قسم اللحوم', sizes:{S:150,M:185,L:250}},
   {cat:'fatir', name:'فطيرة قنبلة بروتين', desc:'قسم اللحوم', sizes:{S:150,M:190,L:270}},
-  {cat:'fatir', name:'فطيرة ماد ميكس', desc:'قسم اللحوم', sizes:{M:220,L:290}},
+  {cat:'fatir', name:'فطيرة ماد مكس', desc:'قسم اللحوم', sizes:{M:220,L:290}},
   {cat:'fatir', name:'فطيرة كيري سجق', desc:'قسم اللحوم', sizes:{M:205,L:275}},
   {cat:'fatir', name:'فطيرة كيري بسطرمة', desc:'قسم اللحوم', sizes:{M:205,L:275}},
   {cat:'fatir', name:'فطيرة فراخ', desc:'قسم الفراخ', sizes:{S:140,M:170,L:250}},
-  {cat:'fatir', name:'فطيرة شيش', desc:'قسم الفراخ', sizes:{S:135,M:165,L:245}},
-  {cat:'fatir', name:'فطيرة فراخ رانش باربيكيو', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'fatir', name:'فطيرة هاهيتا فراخ', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'fatir', name:'فطيرة ميكس فراخ', desc:'قسم الفراخ', sizes:{S:150,M:175,L:260}},
-  {cat:'fatir', name:'فطيرة تشيكن رانش كرسبي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'fatir', name:'فطيرة دخيرة كرانشي', desc:'قسم الفراخ', sizes:{S:140,M:170,L:240}},
-  {cat:'fatir', name:'فطيرة فراخ هوت سيزون', desc:'قسم الفراخ', sizes:{M:200,L:270}},
+  {cat:'fatir', name:'فطيرة شيش', desc:'قسم الفراخ', sizes:{S:135,M:165,L:240}},
+  {cat:'fatir', name:'فطيرة فراخ رانشي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'fatir', name:'فطيرة فراخ باربيكيو', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'fatir', name:'فطيرة فاهيتا فراخ', desc:'قسم الفراخ', sizes:{S:150,M:175,L:250}},
+  {cat:'fatir', name:'فطيرة مكس فراخ', desc:'قسم الفراخ', sizes:{S:155,M:180,L:260}},
+  {cat:'fatir', name:'فطيرة تشيكن رانش كريسبي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'fatir', name:'فطيرة ذخيرة كرانشي', desc:'قسم الفراخ', sizes:{S:140,M:170,L:240}},
+  {cat:'fatir', name:'فطيرة هور سيزون', desc:'قسم الفراخ', sizes:{M:200,L:270}},
   {cat:'fatir', name:'فطيرة فراخ حشو أطراف', desc:'قسم الفراخ', sizes:{M:205,L:280}},
   {cat:'fatir', name:'فطيرة جبنة رومي', desc:'قسم الجبن', sizes:{S:115,M:150,L:205}},
   {cat:'fatir', name:'فطيرة جبنة موتزاريلا', desc:'قسم الجبن', sizes:{S:115,M:150,L:190}},
-  {cat:'fatir', name:'فطيرة جبنة مارجريتا', desc:'قسم الجبن', sizes:{S:100,M:140,L:180}},
+  {cat:'fatir', name:'فطيرة ماجريتا', desc:'قسم الجبن', sizes:{S:100,M:140,L:180}},
   {cat:'fatir', name:'فطيرة مكس جبن', desc:'قسم الجبن', sizes:{S:150,M:190,L:240}},
   {cat:'fatir', name:'فطيرة مشروم', desc:'قسم الجبن', sizes:{S:120,M:170,L:225}},
   {cat:'fatir', name:'فطيرة تونة مفتتة', desc:'قسم الأسماك', sizes:{S:155,M:180,L:240}},
+  {cat:'fatir', name:'فطيرة تونة قطع', desc:'قسم الأسماك', sizes:{M:190,L:250}},
   {cat:'fatir', name:'فطيرة جمبري', desc:'قسم الأسماك', sizes:{M:210,L:280}},
+  {cat:'fatir', name:'فطيرة سي فود', desc:'قسم الأسماك', sizes:{M:230,L:300}},
 
   // ===== بيتزا شرقي =====
   {cat:'pizza_sh', name:'بيتزا سجق', desc:'قسم اللحوم', sizes:{S:135,M:165,L:235}},
   {cat:'pizza_sh', name:'بيتزا لحمة', desc:'قسم اللحوم', sizes:{S:140,M:170,L:240}},
-  {cat:'pizza_sh', name:'بيتزا شاورما لحم', desc:'قسم اللحوم', sizes:{S:140,M:180,L:250}},
-  {cat:'pizza_sh', name:'بيتزا سوسيس', desc:'قسم اللحوم', sizes:{S:145,M:180,L:245}},
-  {cat:'pizza_sh', name:'بيتزا بسطرمة', desc:'قسم اللحوم', sizes:{S:145,M:180,L:225}},
-  {cat:'pizza_sh', name:'بيتزا سلامي', desc:'قسم اللحوم', sizes:{S:145,M:175,L:225}},
+  {cat:'pizza_sh', name:'بيتزا شاورما لحم', desc:'قسم اللحوم', sizes:{S:140,M:170,L:240}},
+  {cat:'pizza_sh', name:'بيتزا سوسيس', desc:'قسم اللحوم', sizes:{S:140,M:180,L:250}},
+  {cat:'pizza_sh', name:'بيتزا بسطرمة', desc:'قسم اللحوم', sizes:{S:145,M:180,L:245}},
+  {cat:'pizza_sh', name:'بيتزا سلامي', desc:'قسم اللحوم', sizes:{S:145,M:180,L:225}},
   {cat:'pizza_sh', name:'بيتزا سموك تركي', desc:'قسم اللحوم', sizes:{S:145,M:175,L:225}},
   {cat:'pizza_sh', name:'بيتزا مكس لحوم', desc:'قسم اللحوم', sizes:{M:185,L:265}},
   {cat:'pizza_sh', name:'بيتزا سوبر سوبريم', desc:'قسم اللحوم', sizes:{M:185,L:265}},
+  {cat:'pizza_sh', name:'بيتزا لحوم مدخنة', desc:'قسم اللحوم', sizes:{S:150,M:185,L:250}},
   {cat:'pizza_sh', name:'بيتزا قنبلة بروتين', desc:'قسم اللحوم', sizes:{S:150,M:190,L:270}},
-  {cat:'pizza_sh', name:'بيتزا ماد ميكس', desc:'قسم اللحوم', sizes:{M:220,L:290}},
+  {cat:'pizza_sh', name:'بيتزا ماد مكس', desc:'قسم اللحوم', sizes:{M:220,L:290}},
   {cat:'pizza_sh', name:'بيتزا كيري سجق', desc:'قسم اللحوم', sizes:{M:205,L:275}},
+  {cat:'pizza_sh', name:'بيتزا كيري بسطرمة', desc:'قسم اللحوم', sizes:{M:205,L:275}},
   {cat:'pizza_sh', name:'بيتزا فراخ', desc:'قسم الفراخ', sizes:{S:140,M:170,L:250}},
-  {cat:'pizza_sh', name:'بيتزا شيش', desc:'قسم الفراخ', sizes:{S:135,M:165,L:245}},
-  {cat:'pizza_sh', name:'بيتزا فراخ رانش', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'pizza_sh', name:'بيتزا هاهيتا فراخ', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'pizza_sh', name:'بيتزا ميكس فراخ', desc:'قسم الفراخ', sizes:{S:150,M:175,L:260}},
-  {cat:'pizza_sh', name:'بيتزا تشيكن رانش كرسبي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'pizza_sh', name:'بيتزا دخيرة كرانشي', desc:'قسم الفراخ', sizes:{S:140,M:170,L:240}},
+  {cat:'pizza_sh', name:'بيتزا شيش', desc:'قسم الفراخ', sizes:{S:135,M:165,L:240}},
+  {cat:'pizza_sh', name:'بيتزا فراخ رانشي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'pizza_sh', name:'بيتزا فراخ باربيكيو', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'pizza_sh', name:'بيتزا فاهيتا فراخ', desc:'قسم الفراخ', sizes:{S:150,M:175,L:250}},
+  {cat:'pizza_sh', name:'بيتزا مكس فراخ', desc:'قسم الفراخ', sizes:{S:155,M:180,L:260}},
+  {cat:'pizza_sh', name:'بيتزا تشيكن رانش كريسبي', desc:'قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'pizza_sh', name:'بيتزا ذخيرة كرانشي', desc:'قسم الفراخ', sizes:{S:140,M:170,L:240}},
+  {cat:'pizza_sh', name:'بيتزا هور سيزون', desc:'قسم الفراخ', sizes:{M:200,L:270}},
   {cat:'pizza_sh', name:'بيتزا فراخ حشو أطراف', desc:'قسم الفراخ', sizes:{M:205,L:280}},
   {cat:'pizza_sh', name:'بيتزا جبنة رومي', desc:'قسم الجبن', sizes:{S:115,M:150,L:205}},
   {cat:'pizza_sh', name:'بيتزا جبنة موتزاريلا', desc:'قسم الجبن', sizes:{S:115,M:150,L:190}},
-  {cat:'pizza_sh', name:'بيتزا مارجريتا', desc:'قسم الجبن', sizes:{S:100,M:140,L:180}},
+  {cat:'pizza_sh', name:'بيتزا جبنة ماجريتا', desc:'قسم الجبن', sizes:{S:100,M:140,L:180}},
   {cat:'pizza_sh', name:'بيتزا مكس جبن', desc:'قسم الجبن', sizes:{S:150,M:190,L:240}},
   {cat:'pizza_sh', name:'بيتزا مشروم', desc:'قسم الجبن', sizes:{S:120,M:170,L:225}},
   {cat:'pizza_sh', name:'بيتزا تونة مفتتة', desc:'قسم الأسماك', sizes:{S:155,M:180,L:240}},
+  {cat:'pizza_sh', name:'بيتزا تونة قطع', desc:'قسم الأسماك', sizes:{M:190,L:250}},
   {cat:'pizza_sh', name:'بيتزا جمبري', desc:'قسم الأسماك', sizes:{M:210,L:280}},
+  {cat:'pizza_sh', name:'بيتزا سي فود', desc:'قسم الأسماك', sizes:{M:230,L:300}},
 
   // ===== بيتزا إيطالي =====
   {cat:'pizza_it', name:'بيتزا سجق', desc:'إيطالي - قسم اللحوم', sizes:{S:135,M:165,L:235}},
   {cat:'pizza_it', name:'بيتزا لحمة مفرومة', desc:'إيطالي - قسم اللحوم', sizes:{S:140,M:170,L:240}},
   {cat:'pizza_it', name:'بيتزا سوسيس', desc:'إيطالي - قسم اللحوم', sizes:{S:140,M:180,L:250}},
   {cat:'pizza_it', name:'بيتزا بسطرمة', desc:'إيطالي - قسم اللحوم', sizes:{S:145,M:180,L:245}},
-  {cat:'pizza_it', name:'بيتزا سلامي', desc:'إيطالي - قسم اللحوم', sizes:{S:145,M:175,L:225}},
+  {cat:'pizza_it', name:'بيتزا سلامي', desc:'إيطالي - قسم اللحوم', sizes:{S:145,M:180,L:225}},
   {cat:'pizza_it', name:'بيتزا سموك تركي', desc:'إيطالي - قسم اللحوم', sizes:{S:145,M:175,L:225}},
+  {cat:'pizza_it', name:'بيتزا مكس لحوم', desc:'إيطالي - قسم اللحوم', sizes:{M:185,L:265}},
   {cat:'pizza_it', name:'بيتزا سوبر سوبريم', desc:'إيطالي - قسم اللحوم', sizes:{M:185,L:265}},
-  {cat:'pizza_it', name:'بيتزا لحوم مدخنة', desc:'إيطالي - قسم اللحوم', sizes:{M:185,L:265}},
+  {cat:'pizza_it', name:'بيتزا لحوم مدخنة', desc:'إيطالي - قسم اللحوم', sizes:{S:150,M:185,L:250}},
   {cat:'pizza_it', name:'بيتزا قنبلة بروتين', desc:'إيطالي - قسم اللحوم', sizes:{S:150,M:190,L:270}},
   {cat:'pizza_it', name:'بيتزا مشروم', desc:'إيطالي - قسم اللحوم', sizes:{S:125,M:165,L:220}},
   {cat:'pizza_it', name:'بيتزا كيري بسطرمة', desc:'إيطالي - قسم اللحوم', sizes:{M:205,L:275}},
-  {cat:'pizza_it', name:'بيتزا ماد ميكس', desc:'إيطالي - قسم اللحوم', sizes:{M:220,L:290}},
+  {cat:'pizza_it', name:'بيتزا ماد مكس', desc:'إيطالي - قسم اللحوم', sizes:{M:220,L:290}},
   {cat:'pizza_it', name:'بيتزا فراخ', desc:'إيطالي - قسم الفراخ', sizes:{S:140,M:170,L:250}},
-  {cat:'pizza_it', name:'بيتزا شيش', desc:'إيطالي - قسم الفراخ', sizes:{S:135,M:165,L:245}},
-  {cat:'pizza_it', name:'بيتزا هاهيتا فراخ', desc:'إيطالي - قسم الفراخ', sizes:{S:150,M:180,L:260}},
-  {cat:'pizza_it', name:'بيتزا تشيكن كرانشي', desc:'إيطالي - قسم الفراخ', sizes:{S:150,M:170,L:260}},
+  {cat:'pizza_it', name:'بيتزا شيش', desc:'إيطالي - قسم الفراخ', sizes:{S:135,M:165,L:240}},
+  {cat:'pizza_it', name:'بيتزا تشيكن رانشي', desc:'إيطالي - قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'pizza_it', name:'بيتزا تشيكن باربيكيو', desc:'إيطالي - قسم الفراخ', sizes:{S:150,M:180,L:260}},
+  {cat:'pizza_it', name:'بيتزا فاهيتا فراخ', desc:'إيطالي - قسم الفراخ', sizes:{S:150,M:175,L:260}},
+  {cat:'pizza_it', name:'بيتزا مكس فراخ', desc:'إيطالي - قسم الفراخ', sizes:{S:155,M:180,L:260}},
+  {cat:'pizza_it', name:'بيتزا كرانشي', desc:'إيطالي - قسم الفراخ', sizes:{S:130,M:165,L:230}},
+  {cat:'pizza_it', name:'بيتزا ذخيرة كرانشي', desc:'إيطالي - قسم الفراخ', sizes:{S:140,M:170,L:240}},
+  {cat:'pizza_it', name:'بيتزا هور سيزون', desc:'إيطالي - قسم الفراخ', sizes:{M:200,L:270}},
   {cat:'pizza_it', name:'بيتزا فراخ حشو أطراف', desc:'إيطالي - قسم الفراخ', sizes:{M:205,L:280}},
-  {cat:'pizza_it', name:'بيتزا جبنة رومي', desc:'إيطالي - قسم الجبن', sizes:{S:115,M:150,L:205}},
-  {cat:'pizza_it', name:'بيتزا موتزاريلا', desc:'إيطالي - قسم الجبن', sizes:{S:115,M:150,L:190}},
-  {cat:'pizza_it', name:'بيتزا مارجريتا', desc:'إيطالي - قسم الجبن', sizes:{S:100,M:140,L:180}},
-  {cat:'pizza_it', name:'بيتزا مكس جبن', desc:'إيطالي - قسم الجبن', sizes:{S:150,M:190,L:240}},
   {cat:'pizza_it', name:'بيتزا تونة مفتتة', desc:'إيطالي - قسم الأسماك', sizes:{S:155,M:180,L:240}},
+  {cat:'pizza_it', name:'بيتزا تونة قطع', desc:'إيطالي - قسم الأسماك', sizes:{M:190,L:250}},
   {cat:'pizza_it', name:'بيتزا جمبري', desc:'إيطالي - قسم الأسماك', sizes:{M:210,L:280}},
+  {cat:'pizza_it', name:'بيتزا سي فود', desc:'إيطالي - قسم الأسماك', sizes:{M:230,L:300}},
+  {cat:'pizza_it', name:'بيتزا رومي', desc:'إيطالي - قسم الجبن', sizes:{S:115,M:150,L:205}},
+  {cat:'pizza_it', name:'بيتزا جبنة موتزاريلا', desc:'إيطالي - قسم الجبن', sizes:{S:115,M:150,L:190}},
+  {cat:'pizza_it', name:'بيتزا ماجريتا', desc:'إيطالي - قسم الجبن', sizes:{S:100,M:140,L:180}},
+  {cat:'pizza_it', name:'بيتزا مكس جبن', desc:'إيطالي - قسم الجبن', sizes:{S:150,M:190,L:240}},
+
+  // ===== إضافات البيتزا =====
+  {cat:'extras_pizza', name:'باربيكيو', desc:'إضافات البيتزا', sizes:{S:35,L:40}},
+  {cat:'extras_pizza', name:'صوص رانش', desc:'إضافات البيتزا', sizes:{S:30,L:35}},
+  {cat:'extras_pizza', name:'صوص بيج تكسي', desc:'إضافات البيتزا', sizes:{S:30,L:35}},
+  {cat:'extras_pizza', name:'شيدر سبريد', desc:'إضافات البيتزا', sizes:{S:30,L:35}},
+  {cat:'extras_pizza', name:'سوسيس', desc:'إضافات البيتزا', sizes:{S:40,L:55}},
+  {cat:'extras_pizza', name:'بيبروني', desc:'إضافات البيتزا', sizes:{S:40,L:55}},
+  {cat:'extras_pizza', name:'بسطرمة', desc:'إضافات البيتزا', sizes:{S:60,L:75}},
+  {cat:'extras_pizza', name:'سجق', desc:'إضافات البيتزا', sizes:{S:40,L:50}},
+  {cat:'extras_pizza', name:'موتزاريلا', desc:'إضافات البيتزا', sizes:{S:40,L:50}},
+  {cat:'extras_pizza', name:'رومي', desc:'إضافات البيتزا', sizes:{S:40,L:50}},
+  {cat:'extras_pizza', name:'مشروم', desc:'إضافات البيتزا', sizes:{S:40,L:55}},
+  {cat:'extras_pizza', name:'كيري', desc:'إضافات البيتزا', sizes:{S:35,L:50}},
+  {cat:'extras_pizza', name:'مشكل جبن', desc:'إضافات البيتزا', sizes:{S:60,L:75}},
+  {cat:'extras_pizza', name:'فراخ', desc:'إضافات البيتزا', sizes:{S:60,L:75}},
+  {cat:'extras_pizza', name:'لحمة', desc:'إضافات البيتزا', sizes:{S:60,L:75}},
+
+  // ===== طواجن وحواوشي =====
+  {cat:'tawagen', name:'طاجن فراخ', desc:'طواجن عم قنديل', price:70},
+  {cat:'tawagen', name:'طاجن لحمة', desc:'طواجن عم قنديل', price:65},
+  {cat:'tawagen', name:'طاجن كبدة', desc:'طواجن عم قنديل', price:65},
+  {cat:'tawagen', name:'طاجن سجق', desc:'طواجن عم قنديل', price:65},
+  {cat:'tawagen', name:'طاجن مشروم', desc:'طواجن عم قنديل', price:65},
+  {cat:'tawagen', name:'طاجن فراخ موتزاريلا', desc:'طواجن عم قنديل', price:95},
+  {cat:'tawagen', name:'طاجن لحمة موتزاريلا', desc:'طواجن عم قنديل', price:90},
+  {cat:'tawagen', name:'طاجن كبدة موتزاريلا', desc:'طواجن عم قنديل', price:90},
+  {cat:'tawagen', name:'طاجن سجق موتزاريلا', desc:'طواجن عم قنديل', price:90},
+  {cat:'tawagen', name:'طاجن مشروم موتزاريلا', desc:'طواجن عم قنديل', price:90},
+  {cat:'tawagen', name:'حواوشي سجق', desc:'حواوشي إيطالي عم قنديل', price:110},
+  {cat:'tawagen', name:'حواوشي برجر', desc:'حواوشي إيطالي عم قنديل', price:100},
+  {cat:'tawagen', name:'حواوشي مشكل جبن', desc:'حواوشي إيطالي عم قنديل', price:120},
+  {cat:'tawagen', name:'حواوشي لحمة مفرومة', desc:'حواوشي إيطالي عم قنديل', price:115},
+  {cat:'tawagen', name:'حواوشي فراخ', desc:'حواوشي إيطالي عم قنديل', price:120},
+  {cat:'tawagen', name:'حواوشي عم قنديل', desc:'مشكل لحوم + سجق + بسطرمة + سوسيس', price:140},
+  {cat:'tawagen', name:'حواوشي سلامي', desc:'حواوشي إيطالي عم قنديل', price:115},
+  {cat:'tawagen', name:'حواوشي تونة', desc:'حواوشي إيطالي عم قنديل', price:110},
+  {cat:'tawagen', name:'حواوشي بيف', desc:'حواوشي إيطالي عم قنديل', price:100},
+  {cat:'tawagen', name:'حواوشي موتزاريلا', desc:'حواوشي إيطالي عم قنديل', price:90},
+  {cat:'tawagen', name:'حواوشي بسطرمة', desc:'حواوشي إيطالي عم قنديل', price:115},
+  {cat:'tawagen', name:'حواوشي مشروم', desc:'حواوشي إيطالي عم قنديل', price:100},
+  {cat:'tawagen', name:'حواوشي مكس فراخ', desc:'استربس + بانيه + فراخ', price:135},
+
+  // ===== بروست =====
+  {cat:'broast', name:'٣ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:145},
+  {cat:'broast', name:'٦ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + عيش', price:220},
+  {cat:'broast', name:'٦ قطعة بروست عائلي', desc:'بطاطس + كاتشب + أرز بسمتي + ثومية + عيش', price:250},
+  {cat:'broast', name:'١٢ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش + لتر بيبسي', price:390},
+  {cat:'broast', name:'١٦ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش + لتر بيبسي', price:580},
+  {cat:'broast', name:'٣ قطع دبوس بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:135},
+  {cat:'broast', name:'٦ قطع دبوس بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:230},
+  {cat:'broast', name:'وجبة زنجر', desc:'أرز + بطاطس + ثومية عادية + ثومية سبايسي + كول سلو + خبزة فرنسي', price:180},
+  {cat:'broast', name:'وجبة سوبر كرانشي', desc:'أرز + بطاطس + ثومية عادية + ثومية سبايسي + كول سلو + خبزة فرنسي', price:180},
+  {cat:'broast', name:'وجبة كريسبي', desc:'أرز + بطاطس + ثومية + جبنة شيدر + كول سلو + خبزة فرنسي', price:150},
+  {cat:'broast', name:'ريزو كريسبي', desc:'أرز + كرسبي + صوص باربيكيو', price:100},
 
   // ===== برجر =====
-  {cat:'burger', name:'برجر كلاسيك', desc:'تشيز دبل + خس + خيار + طماطم + صوص تكساس', sizes:{S:100,L:150}},
-  {cat:'burger', name:'برجر راوند', desc:'تشيز دبل + مخلل + طماطم + حلقتين بصل + موس ١٠٠٠ جزيرة', sizes:{S:115,L:160}},
-  {cat:'burger', name:'برجر مشروم', desc:'تشيز دبل + مخلل + مشروم + صوص شيدر + شريحة جبنة', sizes:{S:125,L:165}},
-  {cat:'burger', name:'برجر سموك', desc:'تشيز دبل + رومي مدخن + صوص تكساس + باربيكيو', sizes:{S:120,L:160}},
-  {cat:'burger', name:'تشيز برجر', desc:'تشيز دبل + خس + طماطم + خيار مخلل + جبنة', sizes:{S:120,L:150}},
-  {cat:'burger', name:'برجر هالبينو', desc:'تشيز دبل + هالبينو + فلفل حار + طماطم', sizes:{S:120,L:160}},
+  {cat:'burger', name:'برجر كلاسيك', desc:'تشيز ديب + خس + خيار + طماطم + صوص تكساس', sizes:{S:100,L:150}},
+  {cat:'burger', name:'برجر راوند', desc:'تشيز ديب + خس + طماطم + خيار مخلل + حلقين بصل + صوص تكساس + صوص 1000 جزيرة', sizes:{S:115,L:160}},
+  {cat:'burger', name:'برجر مشروم', desc:'تشيز ديب + خس + طماطم + مخلل + صوص تكساس + صوص باربيكيو', sizes:{S:125,L:165}},
+  {cat:'burger', name:'برجر سموك', desc:'تشيز ديب + خس + خيار مخلل + طماطم + صوص تكساس + صوص باربيكيو', sizes:{S:120,L:160}},
+  {cat:'burger', name:'تشيز برجر', desc:'تشيز ديب + خس + طماطم + خيار مخلل + صوص تكساس + صوص شيدر + شريحة جبنه', sizes:{S:120,L:150}},
+  {cat:'burger', name:'برجر هالابينو', desc:'تشيز ديب + خس + طماطم + خيار مخلل + فلفل هالابينو + صوص تكساس + صوص فاير', sizes:{S:120,L:160}},
 
   // ===== سندوتشات تشيكن =====
-  {cat:'chicken', name:'ساندوتش كريسبي', desc:'تشيز دبل + خس + خيار مخلل + شريحة جبنة', price:95},
-  {cat:'chicken', name:'ساندوتش زنجر', desc:'تشيز دبل + خيار مخلل + صوص شيدر + مايونيز', price:100},
-  {cat:'chicken', name:'ساندوتش سوبر كرانشي', desc:'تشيز دبل + رومي مدخن + طماطم + صوص شيدر', price:100},
-  {cat:'chicken', name:'تشيكن كلاسيك', desc:'تشيز دبل + هالبينو + مخلل + مايونيز', sizes:{S:100,L:125}},
-  {cat:'chicken', name:'فايبر تشيكن', desc:'تشيز دبل + مايونيز + خيار مخلل + صوص شيبس', sizes:{S:110,L:140}},
-  {cat:'chicken', name:'تشيز تشيكن', desc:'تشيز دبل + رومي مدخن + طماطم + صوص شيدر', sizes:{S:110,L:140}},
-  {cat:'chicken', name:'سموك تشيكن', desc:'تشيز دبل + رومي مدخن + مايونيز هالبينو + شريحة جبنة', sizes:{S:115,L:145}},
-  {cat:'chicken', name:'تشيكن رانش', desc:'تشيز دبل + مخلل + طماطم + صوص رانش', sizes:{S:120,L:145}},
-  {cat:'chicken', name:'تشيكن ماجنم', desc:'قطعة فراخ + مايونيز + صوص خاص', price:130},
+  {cat:'chicken', name:'ساندوتش كريسبي', desc:'تشيز ديب + خس + خيار مخلل + شريحه جبنه + صوص شيدر', price:95},
+  {cat:'chicken', name:'ساندوتش زنجر', desc:'تشيز ديب + خس + خيار مخلل + سلامي + صوص شيدر + صوص فاير', price:100},
+  {cat:'chicken', name:'ساندوتش سوبر كرانشي', desc:'تشيز ديب + خيار مخلل + طماطم + رومي مدخن + صوص شيدر', price:100},
+  {cat:'chicken', name:'تشيكن كلاسيك', desc:'تشيز ديب + خس + خيار مخلل + طماطم + صوص شيدر', sizes:{S:100,L:125}},
+  {cat:'chicken', name:'فاير تشيكن', desc:'تشيز ديب + مايونيز + خس + طماطم + خيار مخلل + هالابينو + صوص شيدر + صوص سويت شيلي', sizes:{S:110,L:140}},
+  {cat:'chicken', name:'تشيز تشيكن', desc:'تشيز ديب + خس + طماطم + خيار مخلل + شريحة شيدر + صوص جبنة شيدر', sizes:{S:110,L:140}},
+  {cat:'chicken', name:'سموك تشيكن', desc:'تشيز ديب + رومي مدخن + مايونيز + خس + طماطم + خيار مخلل + صوص جبنة شيدر', sizes:{S:115,L:145}},
+  {cat:'chicken', name:'تشيكن رانش', desc:'قطعة قرايد + خس + طماطم + خيار مخلل + صوص جبنة شيدر + صوص رانش', sizes:{S:120,L:145}},
+  {cat:'chicken', name:'تشيكن ماجنم', desc:'قطعة قرايد + صوص جبنة شيدر + حلقين بصل + أصابع موتزاريلا + صوص 1000 جزيرة', price:130},
 
   // ===== سوري =====
-  {cat:'souri', name:'شاورما فراخ', desc:'خبز سوري رفيع', price:80},
-  {cat:'souri', name:'شاورما لحم', desc:'خبز سوري رفيع', price:80},
-  {cat:'souri', name:'زنجر سوري', desc:'خبز سوري رفيع', price:75},
-  {cat:'souri', name:'بانية سوري', desc:'خبز سوري رفيع', price:75},
-  {cat:'souri', name:'هوت دوج سوري', desc:'خبز سوري رفيع', price:75},
-  {cat:'souri', name:'كفتة سوري', desc:'خبز سوري رفيع', price:35},
-  {cat:'souri', name:'بطاطس سوري', desc:'خبز سوري رفيع', price:45},
-  {cat:'souri', name:'كبدة سوري', desc:'خبز سوري رفيع', price:60},
-  {cat:'souri', name:'سجق سوري', desc:'خبز سوري رفيع', price:65},
-  {cat:'souri', name:'كبدة بلدي', desc:'خبز بلدي', price:25},
-  {cat:'souri', name:'سجق بلدي', desc:'خبز بلدي', price:25},
+  {cat:'souri', name:'شاورما فراخ', desc:'', price:80},
+  {cat:'souri', name:'شاورما لحم', desc:'', price:80},
+  {cat:'souri', name:'زنجر سوري', desc:'', price:75},
+  {cat:'souri', name:'بانية سوري', desc:'', price:50},
+  {cat:'souri', name:'هوت دوج', desc:'', price:75},
+  {cat:'souri', name:'كفتة سوري', desc:'', price:75},
+  {cat:'souri', name:'بطاطس', desc:'', price:35},
+  {cat:'souri', name:'بطاطس موتزاريلا', desc:'', price:45},
+  {cat:'souri', name:'كبده سوري', desc:'', price:60},
+  {cat:'souri', name:'سجق سوري', desc:'', price:65},
+  {cat:'souri', name:'كبده بلدي', desc:'', price:25},
+  {cat:'souri', name:'سجق بلدي', desc:'', price:25},
+
+  // ===== مشروبات =====
+  {cat:'drinks', name:'مياه معدنية صغيرة', desc:'', price:10},
+  {cat:'drinks', name:'مياه معدنية كبيرة', desc:'', price:15},
+  {cat:'drinks', name:'ليمون نعناع', desc:'', price:25},
+  {cat:'drinks', name:'كولا', desc:'', price:25},
+  {cat:'drinks', name:'بيبسي', desc:'', price:25},
+  {cat:'drinks', name:'شويبس', desc:'', price:25},
+  {cat:'drinks', name:'سفن أب', desc:'', price:25},
+  {cat:'drinks', name:'فيوري', desc:'', price:30},
+  {cat:'drinks', name:'تويست', desc:'', price:30},
+
+  // ===== أرز باللبن =====
+  {cat:'roz', name:'أرز بلبن عادي', desc:'', sizes:{S:20,L:30}},
+  {cat:'roz', name:'أرز بلبن فرن عادي', desc:'', price:25},
+  {cat:'roz', name:'أرز بلبن لوتس', desc:'', price:50},
+  {cat:'roz', name:'أرز بلبن أوريو', desc:'', price:55},
+  {cat:'roz', name:'أرز بلبن نوتيلا', desc:'', price:50},
+  {cat:'roz', name:'أرز بلبن بسبوسة وكنافة وعسل وقشطة', desc:'', price:55},
+  {cat:'roz', name:'أرز بلبن ديناميت', desc:'قشطة + عسل + مكسرات', price:55},
+  {cat:'roz', name:'أرز بلبن فرن ديناميت', desc:'قشطة + عسل + مكسرات', price:45},
+  {cat:'roz', name:'أرز بلبن فرن مكسرات وقشطة', desc:'', price:45},
+
+  // ===== إضافات البروست =====
+  {cat:'extras', name:'بطاطس بروتين كريسبي', desc:'صوص جبنة شيدر', price:80},
+  {cat:'extras', name:'باكت بطاطس', desc:'', price:30},
+  {cat:'extras', name:'صوص رانش', desc:'', price:25},
+  {cat:'extras', name:'كول سلو', desc:'', price:30},
+  {cat:'extras', name:'صوص جبنة شيدر', desc:'', price:25},
+  {cat:'extras', name:'علبة ثومية عادي', desc:'', price:20},
+  {cat:'extras', name:'علبة ثومية سبايسي', desc:'', price:20},
+  {cat:'extras', name:'علبة باربيكيو', desc:'', price:20},
+  {cat:'extras', name:'طبق أرز بسمتي', desc:'', price:50},
+
+  // ===== ميكسات عم قنديل =====
+  {cat:'mixes', name:'ميكس فراخ', desc:'مكسات عم قنديل', price:95},
+  {cat:'mixes', name:'ميكس لحمة', desc:'مكسات عم قنديل', price:90},
+  {cat:'mixes', name:'ميكس كبده', desc:'مكسات عم قنديل', price:90},
+  {cat:'mixes', name:'ميكس سجق', desc:'مكسات عم قنديل', price:90},
+  {cat:'mixes', name:'ميكس مشروم', desc:'مكسات عم قنديل', price:90},
+  {cat:'mixes', name:'كريب صدمة قلبية', desc:'بانية + شاورما فراخ + برجر + هوت دوج + استربس + بطاطس', price:160},
+  {cat:'mixes', name:'كريب الحرب العالمية الثالثة', desc:'استربس + شيش + برجر + بطاطس + هوت دوج', price:155},
+  {cat:'mixes', name:'كريب سوبر كرانشي', desc:'بانية + سلامي', price:140},
+  {cat:'mixes', name:'كريب مكس زنجر', desc:'استربس + كريسبي + بانية + بطاطس', price:145},
+  {cat:'mixes', name:'كريب مكس لحوم', desc:'شاورما لحمة + سجق + هوت دوج + بسطرمة', price:160},
+  {cat:'mixes', name:'كريب مكس فراخ', desc:'استربس + شاورما فراخ + بانية', price:140},
+  {cat:'mixes', name:'كريب مكس شاورما', desc:'شاورما فراخ + شاورما لحمة', price:175},
+  {cat:'mixes', name:'كريب مكس جبن', desc:'موتزاريلا + نستون + كيري + رومي + شيدر', price:160},
+  {cat:'mixes', name:'كريب فيراري', desc:'استربس + هوت دوج + رومي مدخن', price:140},
+  {cat:'mixes', name:'كريب سوبر', desc:'زنجر + شيش + هوت دوج', price:140},
+  {cat:'mixes', name:'كريب ميجا', desc:'استربس + شيش + هوت دوج', price:150},
+  {cat:'mixes', name:'كريب العتاولة', desc:'استربس + شيش + بانية + برجر مدخن', price:155},
 
   // ===== كريب =====
   {cat:'crepe', name:'كريب بطاطس', desc:'كريب متنوع', price:65},
@@ -883,107 +1065,32 @@ const MENU = [
   {cat:'crepe', name:'كريب استربس', desc:'كريب الفراخ', price:110},
   {cat:'crepe', name:'كريب كرسبي', desc:'كريب الفراخ', price:110},
   {cat:'crepe', name:'كريب بانية', desc:'كريب الفراخ', price:100},
-  {cat:'crepe', name:'كريب هاهيتا فراخ', desc:'كريب الفراخ', price:130},
+  {cat:'crepe', name:'كريب فاهيتا فراخ', desc:'كريب الفراخ', price:130},
   {cat:'crepe', name:'كريب فراخ باربيكيو', desc:'كريب الفراخ', price:130},
+  {cat:'crepe', name:'كريب بانية بطاطس', desc:'كريب الفراخ', price:110},
   {cat:'crepe', name:'كريب شاورما رانش', desc:'كريب الفراخ', price:130},
   {cat:'crepe', name:'كريب شاورما لحمة', desc:'كريب اللحوم', price:120},
   {cat:'crepe', name:'كريب لحمة مفرومة', desc:'كريب اللحوم', price:110},
   {cat:'crepe', name:'كريب برجر لحمة', desc:'كريب اللحوم', price:105},
   {cat:'crepe', name:'كريب هوت دوج', desc:'كريب اللحوم', price:110},
-  {cat:'crepe', name:'كريب سجق', desc:'كريب اللحوم', price:110},
+  {cat:'crepe', name:'كريب سجق', desc:'كريب اللحوم', price:100},
+  {cat:'crepe', name:'كريب كفتة', desc:'كريب اللحوم', price:110},
+  {cat:'crepe', name:'كريب هوت دوج ميكانو', desc:'كريب اللحوم', price:120},
   {cat:'crepe', name:'كريب فاهيتا لحمة', desc:'كريب اللحوم', price:130},
   {cat:'crepe', name:'كريب بسطرمة', desc:'كريب اللحوم', price:120},
-  {cat:'crepe', name:'كريب صدمة قلبية', desc:'بانية + شاورما فراخ + برجر + هوت دوج + بطاطس', price:160},
-  {cat:'crepe', name:'كريب الحرب العالمية الثالثة', desc:'ميكس ميجا مشبع', price:155},
-  {cat:'crepe', name:'كريب سوبر كرانشي', desc:'ميكس عم قنديل', price:140},
-  {cat:'crepe', name:'كريب ميكس لحوم', desc:'ميكس عم قنديل', price:160},
-  {cat:'crepe', name:'كريب ميكس شاورما', desc:'ميكس عم قنديل', price:175},
-  {cat:'crepe', name:'كريب ميكس جبن', desc:'ميكس عم قنديل', price:160},
+  {cat:'crepe', name:'كريب سجق بلدي', desc:'كريب اللحوم', price:120},
   {cat:'crepe', name:'كريب نوتيلا', desc:'كريب حلو', price:75},
   {cat:'crepe', name:'كريب نوتيلا موز', desc:'كريب حلو', price:90},
   {cat:'crepe', name:'كريب ميكس نوتيلا', desc:'كريب حلو', price:100},
   {cat:'crepe', name:'كريب لوتس', desc:'كريب حلو', price:90},
-
-  // ===== بروست =====
-  {cat:'broast', name:'٣ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:145},
-  {cat:'broast', name:'٦ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش', price:220},
-  {cat:'broast', name:'٦ قطعة بروست عائلي', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش', price:250},
-  {cat:'broast', name:'١٢ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش + لتر بيبسي', price:390},
-  {cat:'broast', name:'١٦ قطعة بروست', desc:'بطاطس + كاتشب + ثومية + أرز بسمتي + عيش + لتر بيبسي', price:580},
-  {cat:'broast', name:'٣ قطع دبوس بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:135},
-  {cat:'broast', name:'٦ قطع دبوس بروست', desc:'بطاطس + كاتشب + ثومية + عيش + أرز بسمتي', price:230},
-  {cat:'broast', name:'وجبة زنجر', desc:'أرز + بطاطس + كول سلو + توميه + خبزة فرنساوي', price:180},
-  {cat:'broast', name:'وجبة سوبر كرانشي', desc:'أرز + بطاطس + كول سلو + توميه + خبزة فرنساوي', price:180},
-  {cat:'broast', name:'وجبة كريسبي', desc:'أرز + بطاطس + كول سلو + توميه + خبزة فرنساوي', price:150},
-  {cat:'broast', name:'ريزو كريسبي', desc:'أرز + كرسبي + صوص باربيكيو', price:100},
-
-  // ===== ميكسات عم قنديل =====
-  {cat:'mixes', name:'ميكس فراخ', desc:'حواوشي عم قنديل', price:95},
-  {cat:'mixes', name:'ميكس لحمة', desc:'حواوشي عم قنديل', price:90},
-  {cat:'mixes', name:'ميكس كبدة', desc:'حواوشي عم قنديل', price:90},
-  {cat:'mixes', name:'ميكس سجق', desc:'حواوشي عم قنديل', price:90},
-  {cat:'mixes', name:'ميكس مشروم', desc:'حواوشي عم قنديل', price:90},
-  {cat:'mixes', name:'كريب فاير أري', desc:'ميكسات عم قنديل', price:140},
-  {cat:'mixes', name:'كريب سوبر', desc:'ميكسات عم قنديل', price:150},
-  {cat:'mixes', name:'كريب ميجا', desc:'ميكسات عم قنديل', price:140},
-  {cat:'mixes', name:'كريب العتاولة', desc:'ميكسات عم قنديل', price:155},
-  {cat:'mixes', name:'كريب ميكس زنجر', desc:'استربس + كرسبي + بانية + هوت دوج', price:145},
-  {cat:'mixes', name:'كريب ميكس فراخ', desc:'شاورما فراخ + بانية', price:140},
-
-  // ===== طواجن وحواوشي =====
-  {cat:'tawagen', name:'طاجن لحمة', desc:'طواجن عم قنديل', price:70},
-  {cat:'tawagen', name:'طاجن كبدة', desc:'طواجن عم قنديل', price:65},
-  {cat:'tawagen', name:'طاجن سجق', desc:'طواجن عم قنديل', price:65},
-  {cat:'tawagen', name:'طاجن مشروم', desc:'طواجن عم قنديل', price:95},
-  {cat:'tawagen', name:'طاجن فراخ موتزاريلا', desc:'طواجن عم قنديل', price:90},
-  {cat:'tawagen', name:'طاجن لحمة موتزاريلا', desc:'طواجن عم قنديل', price:90},
-  {cat:'tawagen', name:'طاجن كبدة موتزاريلا', desc:'طواجن عم قنديل', price:90},
-  {cat:'tawagen', name:'طاجن سجق موتزاريلا', desc:'طواجن عم قنديل', price:90},
-  {cat:'tawagen', name:'حواوشي سجق', desc:'حواوشي إيطالي عم قنديل', price:110},
-  {cat:'tawagen', name:'حواوشي برجر', desc:'حواوشي إيطالي عم قنديل', price:100},
-  {cat:'tawagen', name:'حواوشي مشكل جبن', desc:'حواوشي إيطالي عم قنديل', price:100},
-  {cat:'tawagen', name:'حواوشي لحمة مفرومة', desc:'حواوشي إيطالي عم قنديل', price:115},
-  {cat:'tawagen', name:'حواوشي فراخ', desc:'حواوشي إيطالي عم قنديل', price:120},
-  {cat:'tawagen', name:'حواوشي سلامي', desc:'حواوشي إيطالي عم قنديل', price:115},
-  {cat:'tawagen', name:'حواوشي تونة', desc:'حواوشي إيطالي عم قنديل', price:110},
-  {cat:'tawagen', name:'حواوشي بيض', desc:'حواوشي إيطالي عم قنديل', price:90},
-  {cat:'tawagen', name:'حواوشي موتزاريلا', desc:'حواوشي إيطالي عم قنديل', price:115},
-  {cat:'tawagen', name:'حواوشي بسطرمة', desc:'حواوشي إيطالي عم قنديل', price:90},
-  {cat:'tawagen', name:'حواوشي مشروم', desc:'حواوشي إيطالي عم قنديل', price:135},
-
-  // ===== مشروبات =====
-  {cat:'drinks', name:'مياه معدنية صغيرة', desc:'', price:10},
-  {cat:'drinks', name:'مياه معدنية كبيرة', desc:'', price:15},
-  {cat:'drinks', name:'سفن أب', desc:'', price:25},
-  {cat:'drinks', name:'ليمون نعناع', desc:'', price:25},
-  {cat:'drinks', name:'فيوري', desc:'', price:25},
-  {cat:'drinks', name:'كولا', desc:'', price:25},
-  {cat:'drinks', name:'نوستو', desc:'', price:25},
-  {cat:'drinks', name:'بيبسي', desc:'', price:25},
-
-  // ===== أرز باللبن =====
-  {cat:'roz', name:'أرز باللبن عادي', desc:'', sizes:{S:20,L:30}},
-  {cat:'roz', name:'أرز باللبن فرن عادي', desc:'', price:50},
-  {cat:'roz', name:'أرز باللبن فرن لوتس', desc:'', price:55},
-  {cat:'roz', name:'أرز باللبن أوريو', desc:'', price:55},
-  {cat:'roz', name:'أرز باللبن نوتيلا', desc:'', price:55},
-  {cat:'roz', name:'أرز باللبن بسبوسة وعسل وقشطة', desc:'', price:55},
-  {cat:'roz', name:'أرز باللبن دينامايت', desc:'قشطة + عسل + مكسرات', price:90},
-  {cat:'roz', name:'أرز باللبن فرن دينامايت', desc:'قشطة + مكسرات', price:45},
-
-  // ===== إضافات =====
-  {cat:'extras', name:'بطاطس بروتين كريسبي', desc:'صوص جبنة شيدر', price:80},
-  {cat:'extras', name:'باكيت بطاطس', desc:'', price:30},
-  {cat:'extras', name:'صوص رانش', desc:'', price:25},
-  {cat:'extras', name:'صوص باربيكيو', desc:'', price:25},
-  {cat:'extras', name:'صوص شيدر', desc:'', price:25},
-  {cat:'extras', name:'صوص تكساس', desc:'', price:30},
-  {cat:'extras', name:'كول سلو', desc:'', price:25},
-  {cat:'extras', name:'علبة تومية عادية', desc:'', price:20},
-  {cat:'extras', name:'علبة تومية سبايسي', desc:'', price:25},
-  {cat:'extras', name:'طبق أرز بسمتي', desc:'', price:50},
-  {cat:'extras', name:'إضافة موتزاريلا عادية', desc:'', price:30},
-  {cat:'extras', name:'إضافة موتزاريلا كونو', desc:'', price:30},
+  {cat:'crepe', name:'صوص شيدر', desc:'إضافات كريب حادق', price:25},
+  {cat:'crepe', name:'صوص رانش (كريب)', desc:'إضافات كريب حادق', price:25},
+  {cat:'crepe', name:'صوص باربيكيو (كريب)', desc:'إضافات كريب حادق', price:25},
+  {cat:'crepe', name:'صوص تكساس', desc:'إضافات كريب حادق', price:25},
+  {cat:'crepe', name:'باكيت بطاطس (كريب)', desc:'إضافات كريب حادق', price:30},
+  {cat:'crepe', name:'إضافة بطاطس', desc:'إضافات كريب حادق', price:20},
+  {cat:'crepe', name:'إضافة موتزاريلا العادية', desc:'إضافات كريب حادق', price:30},
+  {cat:'crepe', name:'إضافة موتزاريلا كونو', desc:'إضافات كريب حادق', price:30},
 ];
 MENU.forEach((item, i) => item._id = i);
 
@@ -1032,36 +1139,58 @@ function escAttr(str){
 
 /* ---------- عرض السعر ---------- */
 function priceBlock(item){
+  const labels = {S:'صغير', M:'وسط', L:'كبير'};
+  let rows = '';
+
   if(item.sizes){
-    const labels = {S:'صغير', M:'وسط', L:'كبير'};
-    const rows = Object.entries(item.sizes)
+    rows += Object.entries(item.sizes)
       .filter(([,v]) => v !== null && v !== undefined)
-      .map(([k,v]) => `<div class="price-row"><span class="lbl">${labels[k]}</span><span class="val">${v} ج.م</span></div>`)
+      .map(([k,v]) => `<div class="price-row"><span class="lbl">${labels[k] || escAttr(k)}</span><span class="val">${v} ج.م</span></div>`)
       .join('');
-    return `<div class="card-prices">${rows}</div>`;
+  } else {
+    rows += `<div class="price-row single"><span class="val">${item.price} ج.م</span></div>`;
   }
-  return `<div class="card-prices"><div class="price-row single"><span class="val">${item.price} ج.م</span></div></div>`;
+
+  (item.extraPrices || []).forEach(ep => {
+    rows += `<div class="price-row"><span class="lbl">${escAttr(ep.label)}</span><span class="val">${ep.price} ج.م</span></div>`;
+  });
+
+  return `<div class="card-prices">${rows}</div>`;
 }
 
 /* ---------- كارت وضع التعديل ---------- */
 function priceEditBlock(item){
   const labels = {S:'صغير', M:'وسط', L:'كبير'};
+  let html = '';
+
   if(item.sizes){
-    const rows = Object.keys(item.sizes)
+    html += Object.keys(item.sizes)
       .filter(k => item.sizes[k] !== null && item.sizes[k] !== undefined)
       .map(k => `
         <div class="edit-price-row">
-          <label>${labels[k]}</label>
-          <input class="edit-field" type="number" data-id="${item._id}" data-field="size-${k}" value="${item.sizes[k]}">
+          <label>${labels[k] || escAttr(k)}</label>
+          <input class="edit-field" type="number" data-id="${item._id}" data-field="size-${escAttr(k)}" value="${item.sizes[k]}">
         </div>`)
       .join('');
-    return rows;
+  } else {
+    html += `
+      <div class="edit-price-row">
+        <label>السعر</label>
+        <input class="edit-field" type="number" data-id="${item._id}" data-field="price" value="${item.price}">
+      </div>`;
   }
-  return `
-    <div class="edit-price-row">
-      <label>السعر</label>
-      <input class="edit-field" type="number" data-id="${item._id}" data-field="price" value="${item.price}">
-    </div>`;
+
+  (item.extraPrices || []).forEach((ep, i) => {
+    html += `
+      <div class="edit-price-row">
+        <input class="edit-field" style="flex:0 0 70px" data-id="${item._id}" data-extra-index="${i}" data-field="extra-label" value="${escAttr(ep.label)}" placeholder="اسم الحجم">
+        <input class="edit-field" type="number" data-id="${item._id}" data-extra-index="${i}" data-field="extra-price" value="${ep.price}">
+        <button class="remove-price-btn" data-remove-extra-id="${item._id}" data-remove-extra-index="${i}" title="شيل السعر ده">✕</button>
+      </div>`;
+  });
+
+  html += `<button class="add-price-btn" data-add-price-id="${item._id}">➕ إضافة سعر تاني</button>`;
+  return html;
 }
 
 function buildEditCard(item){
@@ -1070,10 +1199,18 @@ function buildEditCard(item){
   const imgPreview = item.img
     ? `<img src="${item.img}" alt="" style="width:100%;height:100%;object-fit:cover;">`
     : icon;
+  const sameCatItems = MENU.filter(m => m.cat === item.cat);
+  const posInCat = sameCatItems.findIndex(m => m._id === item._id);
+  const isFirst = posInCat === 0;
+  const isLast = posInCat === sameCatItems.length - 1;
   return `
     <div class="card editing">
       <div class="card-img">${imgPreview}</div>
       <div class="card-body">
+        <div class="reorder-row">
+          <button class="reorder-btn" data-move-id="${item._id}" data-move-dir="up" ${isFirst ? 'disabled' : ''}>⬆️ لفوق</button>
+          <button class="reorder-btn" data-move-id="${item._id}" data-move-dir="down" ${isLast ? 'disabled' : ''}>⬇️ لتحت</button>
+        </div>
         <label class="img-upload-btn">
           📷 ${item.img ? 'تغيير الصورة' : 'رفع صورة'}
           <input type="file" accept="image/*" class="item-img-input" data-id="${item._id}" hidden>
@@ -1232,10 +1369,18 @@ contentEl.addEventListener('input', (e) => {
   const el = e.target;
   if(!el.classList.contains('edit-field')) return;
   const id = Number(el.dataset.id);
-  const field = el.dataset.field;
   const item = MENU.find(m => m._id === id);
   if(!item) return;
 
+  if(el.dataset.extraIndex !== undefined){
+    const i = Number(el.dataset.extraIndex);
+    if(!item.extraPrices || !item.extraPrices[i]) return;
+    if(el.dataset.field === 'extra-label') item.extraPrices[i].label = el.value;
+    else if(el.dataset.field === 'extra-price') item.extraPrices[i].price = Number(el.value) || 0;
+    return;
+  }
+
+  const field = el.dataset.field;
   if(field === 'name') item.name = el.value;
   else if(field === 'desc') item.desc = el.value;
   else if(field === 'price') item.price = Number(el.value) || 0;
@@ -1247,6 +1392,46 @@ contentEl.addEventListener('input', (e) => {
 
 /* حذف صنف - ضغطتين تأكيد بدل confirm() */
 contentEl.addEventListener('click', (e) => {
+  const moveBtn = e.target.closest('.reorder-btn');
+  if(moveBtn){
+    const id = Number(moveBtn.dataset.moveId);
+    const dir = moveBtn.dataset.moveDir;
+    const idx = MENU.findIndex(m => m._id === id);
+    if(idx === -1) return;
+    const cat = MENU[idx].cat;
+    let swapIdx = -1;
+    if(dir === 'up'){
+      for(let i = idx - 1; i >= 0; i--){ if(MENU[i].cat === cat){ swapIdx = i; break; } }
+    } else {
+      for(let i = idx + 1; i < MENU.length; i++){ if(MENU[i].cat === cat){ swapIdx = i; break; } }
+    }
+    if(swapIdx === -1) return;
+    [MENU[idx], MENU[swapIdx]] = [MENU[swapIdx], MENU[idx]];
+    render();
+    return;
+  }
+
+  const addPriceBtn = e.target.closest('.add-price-btn');
+  if(addPriceBtn){
+    const id = Number(addPriceBtn.dataset.addPriceId);
+    const item = MENU.find(m => m._id === id);
+    if(!item) return;
+    if(!item.extraPrices) item.extraPrices = [];
+    item.extraPrices.push({label:'حجم جديد', price:0});
+    render();
+    return;
+  }
+
+  const removeExtraBtn = e.target.closest('.remove-price-btn');
+  if(removeExtraBtn && removeExtraBtn.dataset.removeExtraId !== undefined){
+    const id = Number(removeExtraBtn.dataset.removeExtraId);
+    const i = Number(removeExtraBtn.dataset.removeExtraIndex);
+    const item = MENU.find(m => m._id === id);
+    if(item && item.extraPrices) item.extraPrices.splice(i, 1);
+    render();
+    return;
+  }
+
   const removeBtn = e.target.closest('.img-remove-btn');
   if(removeBtn){
     const id = Number(removeBtn.dataset.removeImgId);
