@@ -155,6 +155,122 @@ body::before{
 .contact-chip.complaint{background:var(--orange); color:var(--white); border-color:var(--orange);}
 .contact-chip.complaint:hover{background:var(--orange-deep);}
 
+/* ---- Scan / QR & NFC section ---- */
+.scan-section{
+  background:var(--cream-2);
+  border-bottom:1px solid var(--line);
+  padding:26px 16px;
+}
+.scan-card{
+  max-width:640px;
+  margin:0 auto;
+  background:var(--white);
+  border:1.5px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px 20px;
+  text-align:center;
+}
+.scan-card .scan-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:6px;
+}
+.scan-card .scan-brand .scan-logo{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--logo-watermark) center/cover no-repeat;
+  border:2px solid var(--orange);
+}
+.scan-card .scan-brand span{
+  font-weight:900;
+  font-size:19px;
+  color:var(--brown);
+}
+.scan-card .scan-sub{
+  font-size:13px;
+  color:var(--brown-soft);
+  font-weight:600;
+  margin-bottom:18px;
+}
+.scan-grid{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.scan-box{
+  flex:1 1 220px;
+  max-width:250px;
+  background:var(--cream);
+  border:1.5px dashed var(--line);
+  border-radius:var(--radius-sm);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+.scan-box .scan-box-title{
+  font-weight:800;
+  font-size:14px;
+  color:var(--brown);
+}
+.scan-box .scan-box-icon{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:var(--orange);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+.scan-box img.qr-img{
+  width:150px;
+  height:150px;
+  border-radius:10px;
+  background:var(--white);
+  padding:6px;
+  border:1px solid var(--line);
+}
+.scan-box .scan-box-desc{
+  font-size:12px;
+  color:var(--brown-soft);
+  font-weight:600;
+  line-height:1.6;
+}
+.scan-box.nfc-box .nfc-shape{
+  width:150px;
+  height:150px;
+  border-radius:18px;
+  background:linear-gradient(145deg, var(--cream) 0%, var(--white) 100%);
+  border:2px solid var(--orange);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.scan-box.nfc-box .nfc-shape .nfc-wave{
+  font-size:40px;
+}
+.scan-box.nfc-box .nfc-shape::after{
+  content:"NFC";
+  position:absolute;
+  bottom:8px;
+  right:0;
+  left:0;
+  text-align:center;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--orange-deep);
+}
+
 /* ---- Footer ---- */
 .site-footer{
   background:var(--brown);
@@ -670,12 +786,7 @@ body::before{
   <span><b id="sectionsCount">0</b> قسم متاح</span>
 </div>
 
-<div class="contact-bar">
-  <a class="contact-chip" href="tel:01111663332">📞 01111663332</a>
-  <a class="contact-chip" href="tel:01111888799">📞 01111888799</a>
-  <a class="contact-chip whatsapp" href="https://wa.me/201111663332" target="_blank" rel="noopener">💬 واتساب</a>
-  <a class="contact-chip complaint" href="tel:01141001906">📢 الشكاوي والاقتراحات</a>
-</div>
+<div class="contact-bar" id="contactBar"></div>
 
 <div class="edit-banner" id="editBanner">✏️ وضع التعديل شغال — دوس على أي اسم أو سعر وغيّره مباشرة، وبعدين اضغط "تحميل نسخة محدثة"</div>
 
@@ -690,6 +801,18 @@ body::before{
 </div>
 
 <div class="add-panels" id="addPanels">
+  <button class="add-toggle-btn" id="toggleContactForm">📇 تعديل أرقام التليفون والواتساب والفيسبوك</button>
+  <div class="add-form" id="contactForm">
+    <input class="edit-field" id="cPhone1" placeholder="تليفون 1 (مثال: 01111663332)">
+    <input class="edit-field" id="cPhone2" placeholder="تليفون 2">
+    <input class="edit-field" id="cPhone3" placeholder="تليفون 3">
+    <input class="edit-field" id="cPhone4" placeholder="تليفون 4">
+    <input class="edit-field" id="cWhatsapp" placeholder="رقم الواتساب بالصيغة الدولية بدون + (مثال: 201111663332)">
+    <input class="edit-field" id="cComplaint" placeholder="رقم الشكاوي والاقتراحات">
+    <input class="edit-field" id="cFacebook" placeholder="لينك صفحة الفيسبوك (https://facebook.com/...)">
+    <button class="add-confirm-btn" id="confirmContact">حفظ بيانات التواصل</button>
+  </div>
+
   <button class="add-toggle-btn" id="toggleCatForm">➕ إضافة قسم جديد</button>
   <div class="add-form" id="catForm">
     <input class="edit-field" id="newCatIcon" placeholder="إيموجي (مثال: 🍰)" maxlength="4">
@@ -718,20 +841,11 @@ body::before{
     </div>
     <div class="footer-block">
       <h4>اتصل بينا</h4>
-      <div class="footer-links">
-        <a href="tel:01111663332">📞 01111663332</a>
-        <a href="tel:01111888799">📞 01111888799</a>
-        <a href="tel:01233441534">📞 01233441534</a>
-        <a href="tel:01233441524">📞 01233441524</a>
-      </div>
+      <div class="footer-links" id="footerPhones"></div>
     </div>
     <div class="footer-block">
       <h4>تواصل وشكاوي</h4>
-      <div class="footer-links">
-        <a href="https://wa.me/201111663332" target="_blank" rel="noopener">💬 واتساب الأوردرات</a>
-        <a href="tel:01141001906">📢 الشكاوي والاقتراحات: 01141001906</a>
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener">📘 عم قنديل على فيسبوك</a>
-      </div>
+      <div class="footer-links" id="footerSocial"></div>
     </div>
   </div>
   <div class="footer-bottom">© عم قنديل — كل الحقوق محفوظة</div>
@@ -759,6 +873,17 @@ body::before{
 function getItemImage(item){
   return item.img || null;
 }
+
+/* ---------- بيانات التواصل (تتعدل من زرار "تعديل" بالموقع) ---------- */
+const CONTACT = {
+  phone1: "01111663332",
+  phone2: "01111888799",
+  phone3: "01233441534",
+  phone4: "01233441524",
+  whatsapp: "201111663332",
+  complaintPhone: "01141001906",
+  facebook: "https://www.facebook.com/"
+};
 
 const CATEGORIES = [
   {
@@ -788,8 +913,13 @@ const CATEGORIES = [
   },
   {
     "id": "tawagen",
-    "name": "طواجن وحواوشي",
+    "name": "طواجن",
     "icon": "🥘"
+  },
+  {
+    "id": "hawawshi",
+    "name": "حواوشي",
+    "icon": "🥙"
   },
   {
     "id": "broast",
@@ -2168,79 +2298,79 @@ const MENU = [
     "price": 90
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي سجق",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 110
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي برجر",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 100
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي مشكل جبن",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 120
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي لحمة مفرومة",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 115
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي فراخ",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 120
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي عم قنديل",
     "desc": "مشكل لحوم + سجق + بسطرمة + سوسيس",
     "price": 140
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي سلامي",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 115
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي تونة",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 110
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي بيف",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 100
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي موتزاريلا",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 90
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي بسطرمة",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 115
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي مشروم",
     "desc": "حواوشي إيطالي عم قنديل",
     "price": 100
   },
   {
-    "cat": "tawagen",
+    "cat": "hawawshi",
     "name": "حواوشي مكس فراخ",
     "desc": "استربس + بانيه + فراخ",
     "price": 135
@@ -3215,6 +3345,64 @@ editToggleBtn.addEventListener('click', () => {
   render();
 });
 
+/* ---------- عرض بيانات التواصل (تليفونات / واتساب / فيسبوك) ---------- */
+function renderContact(){
+  document.getElementById('contactBar').innerHTML = `
+    <a class="contact-chip" href="tel:${CONTACT.phone1}">📞 ${CONTACT.phone1}</a>
+    <a class="contact-chip" href="tel:${CONTACT.phone2}">📞 ${CONTACT.phone2}</a>
+    <a class="contact-chip whatsapp" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener">💬 واتساب</a>
+    <a class="contact-chip complaint" href="tel:${CONTACT.complaintPhone}">📢 الشكاوي والاقتراحات</a>
+  `;
+  const qrImg = document.getElementById('qrImg');
+  if(qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent('https://wa.me/' + CONTACT.whatsapp)}`;
+
+  document.getElementById('footerPhones').innerHTML = [CONTACT.phone1, CONTACT.phone2, CONTACT.phone3, CONTACT.phone4]
+    .filter(p => p && p.trim())
+    .map(p => `<a href="tel:${p}">📞 ${p}</a>`)
+    .join('');
+
+  document.getElementById('footerSocial').innerHTML = `
+    <a href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener">💬 واتساب الأوردرات</a>
+    <a href="tel:${CONTACT.complaintPhone}">📢 الشكاوي والاقتراحات: ${CONTACT.complaintPhone}</a>
+    ${CONTACT.facebook ? `<a href="${CONTACT.facebook}" target="_blank" rel="noopener">📘 عم قنديل على فيسبوك</a>` : ''}
+  `;
+}
+
+/* ---------- تعديل بيانات التواصل ---------- */
+const toggleContactForm = document.getElementById('toggleContactForm');
+const contactForm = document.getElementById('contactForm');
+const cPhone1 = document.getElementById('cPhone1');
+const cPhone2 = document.getElementById('cPhone2');
+const cPhone3 = document.getElementById('cPhone3');
+const cPhone4 = document.getElementById('cPhone4');
+const cWhatsapp = document.getElementById('cWhatsapp');
+const cComplaint = document.getElementById('cComplaint');
+const cFacebook = document.getElementById('cFacebook');
+const confirmContact = document.getElementById('confirmContact');
+
+toggleContactForm.addEventListener('click', () => {
+  cPhone1.value = CONTACT.phone1 || '';
+  cPhone2.value = CONTACT.phone2 || '';
+  cPhone3.value = CONTACT.phone3 || '';
+  cPhone4.value = CONTACT.phone4 || '';
+  cWhatsapp.value = CONTACT.whatsapp || '';
+  cComplaint.value = CONTACT.complaintPhone || '';
+  cFacebook.value = CONTACT.facebook || '';
+  contactForm.classList.toggle('show');
+});
+
+confirmContact.addEventListener('click', () => {
+  CONTACT.phone1 = cPhone1.value.trim();
+  CONTACT.phone2 = cPhone2.value.trim();
+  CONTACT.phone3 = cPhone3.value.trim();
+  CONTACT.phone4 = cPhone4.value.trim();
+  CONTACT.whatsapp = cWhatsapp.value.trim();
+  CONTACT.complaintPhone = cComplaint.value.trim();
+  CONTACT.facebook = cFacebook.value.trim();
+  renderContact();
+  contactForm.classList.remove('show');
+});
+
 /* ---------- إضافة قسم / صنف جديد ---------- */
 const toggleCatForm = document.getElementById('toggleCatForm');
 const catForm = document.getElementById('catForm');
@@ -3402,8 +3590,11 @@ fetch(window.location.href).then(r => r.text()).then(t => {
 downloadBtn.addEventListener('click', () => {
   if(!originalSource || downloadBtn.disabled) return;
 
+  const contactText = 'const CONTACT = ' + JSON.stringify(CONTACT, null, 2) + ';';
+  let updatedSource = originalSource.replace(/const CONTACT = \{[\s\S]*?\n\};/, contactText);
+
   const catText = 'const CATEGORIES = ' + JSON.stringify(CATEGORIES, null, 2) + ';';
-  let updatedSource = originalSource.replace(/const CATEGORIES = \[[\s\S]*?\n\];/, catText);
+  updatedSource = updatedSource.replace(/const CATEGORIES = \[[\s\S]*?\n\];/, catText);
 
   const cleanMenu = MENU.map(({_id, ...rest}) => rest);
   const menuText = 'const MENU = ' + JSON.stringify(cleanMenu, null, 2) + ';';
@@ -3429,6 +3620,7 @@ if(new URLSearchParams(window.location.search).get('admin') === ADMIN_KEY){
 
 /* ---------- تشغيل ---------- */
 buildTabs();
+renderContact();
 render();
 </script>
 </body>
